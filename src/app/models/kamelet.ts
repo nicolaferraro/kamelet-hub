@@ -19,5 +19,9 @@ export interface KameletSpec {
 }
 
 export interface JSONSchema {
+    title?: string
     description?: string
+    type?: string
+    properties?: Map<string, JSONSchema>
+    required?: Array<string>
 }

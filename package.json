@@ -12,8 +12,8 @@
     "build": "webpack --config webpack.prod.js && npm run dr:surge",
     "start": "node server.js",
     "json-server": "json-server --watch db.json --port 3000",
-    "dev": "webpack-dev-server --hot --color --progress --info=true --config webpack.dev.js",
-    "start:dev": "concurrently \"npm run dev\" \"npm run json-server\"",
+    "dir:dev": "webpack-dev-server --hot --color --progress --info=true --config webpack.dev.js",
+    "start:dev": "concurrently \"npm run json-server\" \"npm run dir:dev\"",
     "test": "jest",
     "eslint": "eslint --ext .tsx,.js ./src/",
     "lint": "npm run eslint",
@@ -33,6 +33,8 @@
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^25.2.3",
+    "@types/react-router": "^5.1.8",
+    "@types/react-router-dom": "^5.1.5",
     "@types/victory": "^33.1.4",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
     "@typescript-eslint/parser": "^3.1.0",
@@ -79,9 +81,11 @@
     "@patternfly/react-core": "^4.18.1",
     "@patternfly/react-icons": "^4.3.2",
     "@patternfly/react-styles": "^4.3.2",
+    "@patternfly/react-table": "^4.8.6",
     "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-last-location": "^2.0.1"
+    "react-router-last-location": "^2.0.1",
+    "yaml": "^1.10.0"
   }
 }

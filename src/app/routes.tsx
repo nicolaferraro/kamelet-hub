@@ -7,6 +7,7 @@ import { Dashboard } from '@app/Dashboard/Dashboard';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import { KameletDetails } from './Kamelet/KameletDetails';
 
 let routeFocusTimer: number;
 
@@ -54,7 +55,14 @@ const routes: IAppRoute[] = [
     exact: true,
     label: 'Dashboard',
     path: '/',
-    title: 'PatternFly Seed | Main Dashboard',
+    title: 'Kamelet Hub | Dashboard',
+  },
+  {
+    component: KameletDetails,
+    exact: false,
+    label: 'Kamelet',
+    path: '/kamelets/:id',
+    title: 'Kamelet Hub | Kamelet',
   },
   {
     component: Support,
@@ -89,7 +97,7 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
     return <Component {...rest} {...routeProps} />;
   }
 
-  return <Route render={routeWithTitle} />;
+  return <Route path={rest.path} exact={rest.exact} render={routeWithTitle} />;
 };
 
 const PageNotFound = ({ title }: { title: string }) => {

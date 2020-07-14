@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Card, CardHeader, CardHeaderMain, CardTitle, CardBody, Brand } from '@patternfly/react-core';
 import { Kamelet as KameletModel, KameletTitleAnnotation, KameletIconAnnotation } from '@app/models/kamelet';
 
@@ -7,17 +8,20 @@ interface IKamelet {
 
 }
 
-const Kamelet: React.FunctionComponent<IKamelet> = ({value}) => {
+export const Kamelet: React.FunctionComponent<IKamelet> = ({value}) => {
 
-  const title = value.metadata.annotations[KameletTitleAnnotation] || value.metadata.name
+  const title = value.spec.definition.title || value.metadata.name
 
   let icon = <></>
   if (value.metadata.annotations[KameletIconAnnotation]) {
     icon = <Brand alt={title + " icon"} style={{height: "35px"}} src={value.metadata.annotations[KameletIconAnnotation]}></Brand>
   }
 
+  const history = useHistory()
+  const handleClick = (e: React.MouseEvent) => history.push('/kamelets/' + value.metadata.name)
+
   return (
-    <Card isHoverable>
+    <Card isSelectable onClick={handleClick}>
       <CardHeader>
         <CardHeaderMain>
           {icon}
@@ -30,5 +34,3 @@ const Kamelet: React.FunctionComponent<IKamelet> = ({value}) => {
     </Card>
   )
 }
-
-export { Kamelet };
