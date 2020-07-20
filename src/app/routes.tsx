@@ -6,6 +6,7 @@ import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { KameletDetailPage } from './Kamelet/KameletDetailPage';
+import { NewKameletPage } from './Kamelet/NewKameletPage';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -32,6 +33,12 @@ const routes: IAppRoute[] = [
     exact: false,
     path: '/kamelets/:id',
     title: 'Kamelet Marketplace | Kamelet',
+  },
+  {
+    component: NewKameletPage,
+    exact: true,
+    path: '/create',
+    title: 'Kamelet Marketplace | Create Kamelet',
   }
 ];
 
