@@ -12,7 +12,6 @@ import {
 import { routes } from '@app/routes';
 import { Catalog } from '@app/contexts/catalog';
 import { KameletCatalog } from '@app/models/kamelet';
-import { Kamelet } from '@app/Kamelet/Kamelet';
 
 interface IAppLayout {
   children: React.ReactNode;
@@ -37,7 +36,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({children}) => {
   };
   const Header = (
     <PageHeader
-      logo="Kamelet Hub"
+      logo="Kamelet Marketplace"
       logoProps={logoProps}
       showNavToggle
       isNavOpen={isNavOpen}
@@ -48,7 +47,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({children}) => {
   const Navigation = (
     <Nav id="nav-primary-simple" theme="dark">
       <NavList id="nav-list-simple">
-        {routes.filter((route) => route.exact !== undefined && route.exact).map((route, idx) => route.label && (
+        {routes.map((route, idx) => route.label && (
             <NavItem key={`${route.label}-${idx}`} id={`${route.label}-${idx}`}>
               <NavLink exact to={route.path} activeClassName="pf-m-current">{route.label}</NavLink>
             </NavItem>

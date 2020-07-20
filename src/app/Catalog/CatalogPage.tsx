@@ -3,7 +3,7 @@ import { PageSection, Title, PageSectionVariants, Text, Gallery } from '@pattern
 import { Kamelet } from '@app/Kamelet/Kamelet';
 import { Catalog } from '@app/contexts/catalog';
 
-const Dashboard: React.FunctionComponent = () => (
+const CatalogPage: React.FunctionComponent = () => (
   <>
     <PageSection variant={PageSectionVariants.light}>
       <Title headingLevel="h1">Kamelets</Title>
@@ -27,4 +27,4 @@ const Dashboard: React.FunctionComponent = () => (
   </>
 )
 
-export { Dashboard };
+export { CatalogPage };

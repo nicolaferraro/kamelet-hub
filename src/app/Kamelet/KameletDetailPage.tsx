@@ -1,16 +1,12 @@
 import * as React from 'react';
-import { Card, CardHeader, CardHeaderMain, CardTitle, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Form, Stack, StackItem, Grid, GridItem, Button } from '@patternfly/react-core';
+import { Card, CardHeader, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Grid, GridItem, Button } from '@patternfly/react-core';
 import { Table, TableHeader, TableBody, ICell, IRow } from '@patternfly/react-table';
-import { Kamelet as KameletModel, KameletTitleAnnotation, KameletIconAnnotation, KameletCatalog, JSONSchema } from '@app/models/kamelet';
-import { RouteComponentProps, useRouteMatch, useParams, useHistory } from 'react-router';
+import { KameletIconAnnotation, KameletCatalog, JSONSchema } from '@app/models/kamelet';
+import { useParams, } from 'react-router';
 import { Catalog } from '@app/contexts/catalog'
 import YAML from 'yaml'
 
-
-interface IKameletDetails {
-}
-
-export const KameletDetails: React.FunctionComponent<IKameletDetails> = () => {
+export const KameletDetailPage: React.FunctionComponent = () => {
   const params = useParams<{id: string}>()
   const id = params.id
 

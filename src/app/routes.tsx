@@ -1,43 +1,13 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { Alert, PageSection } from '@patternfly/react-core';
-import { DynamicImport } from '@app/DynamicImport';
 import { accessibleRouteChangeHandler } from '@app/utils/utils';
-import { Dashboard } from '@app/Dashboard/Dashboard';
+import { CatalogPage } from '@app/Catalog/CatalogPage';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { KameletDetails } from './Kamelet/KameletDetails';
+import { KameletDetailPage } from './Kamelet/KameletDetailPage';
 
 let routeFocusTimer: number;
-
-const getSupportModuleAsync = () => () => import(/* webpackChunkName: 'support' */ '@app/Support/Support');
-
-const Support = (routeProps: RouteComponentProps): React.ReactElement => {
-  const lastNavigation = useLastLocation();
-  return (
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    <DynamicImport load={getSupportModuleAsync()} focusContentAfterMount={lastNavigation !== null}>
-      {(Component: any) => {
-        let loadedComponent: any;
-        /* eslint-enable @typescript-eslint/no-explicit-any */
-        if (Component === null) {
-          loadedComponent = (
-            <PageSection aria-label="Loading Content Container">
-              <div className="pf-l-bullseye">
-                <Alert title="Loading" className="pf-l-bullseye__item" />
-              </div>
-            </PageSection>
-          );
-        } else {
-          loadedComponent = <Component.Support {...routeProps} />;
-        }
-        return loadedComponent;
-      }}
-    </DynamicImport>
-  );
-};
-
 export interface IAppRoute {
   label?: string;
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -51,27 +21,18 @@ export interface IAppRoute {
 
 const routes: IAppRoute[] = [
   {
-    component: Dashboard,
+    component: CatalogPage,
     exact: true,
-    label: 'Dashboard',
+    label: 'Catalog',
     path: '/',
-    title: 'Kamelet Hub | Dashboard',
+    title: 'Kamelet Marketplace | Dashboard',
   },
   {
-    component: KameletDetails,
+    component: KameletDetailPage,
     exact: false,
-    label: 'Kamelet',
     path: '/kamelets/:id',
-    title: 'Kamelet Hub | Kamelet',
-  },
-  {
-    component: Support,
-    exact: true,
-    isAsync: true,
-    label: 'Support',
-    path: '/support',
-    title: 'PatternFly Seed | Support Page',
-  },
+    title: 'Kamelet Marketplace | Kamelet',
+  }
 ];
 
 // a custom hook for sending focus to the primary content container
