@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const BG_IMAGES_DIRNAME = 'bgimages';
+const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
+
 
 module.exports = env => {
 
@@ -33,7 +35,8 @@ module.exports = env => {
             path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
             path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
             path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/fonts'),
-            path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/pficon')
+            path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/pficon'),
+            path.resolve(__dirname, 'node_modules/monaco-editor/esm/vs/base/browser/ui/codiconLabel/codicon/codicon')
           ],
           use: {
             loader: 'file-loader',
@@ -83,6 +86,11 @@ module.exports = env => {
             loader: 'raw-loader',
             options: {}
           }
+        },
+        {
+          test: /\.css$/,
+          include: MONACO_DIR,
+          use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.(jpg|jpeg|png|gif)$/i,

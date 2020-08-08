@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { PageSection, PageSectionVariants, Title, Tabs, Tab, Card, Form, FormGroup, TextInput, CardTitle, CardHeader, CardBody, FileUpload, GridItem, Grid, Button, Bullseye, Stack, StackItem, ActionGroup, Divider } from '@patternfly/react-core';
-import Editor from '@monaco-editor/react';
 import { Link } from 'react-router-dom';
+import { KameletEditor } from '@app/Common/KameletEditor';
+
 
 export const NewKameletPage: React.FunctionComponent = () => {
-  
+  const [value, setValue] = React.useState('from:\n  uri: timer:tick\n  parameters:\n      period: 1000\n  steps:\n      - log: "Hello!"');
+
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>
@@ -20,7 +22,7 @@ export const NewKameletPage: React.FunctionComponent = () => {
                       <Tab eventKey={0} title="Form">
                         <Grid hasGutter>
                           <GridItem span={8}>
-                            <Editor language="yaml" options={{minimap: {enabled: false}}} />
+                            <KameletEditor value={value} onChange={setValue} />
                           </GridItem>
                           <GridItem span={4}>
                             <Card>
