@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Card, CardHeader, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Grid, GridItem, Button } from '@patternfly/react-core';
+import { Card, CardHeader, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Grid, GridItem, Button, ClipboardCopy } from '@patternfly/react-core';
 import { Table, TableHeader, TableBody, ICell, IRow } from '@patternfly/react-table';
-import { KameletIconAnnotation, KameletCatalog, JSONSchema } from '@app/models/kamelet';
+import { KameletIconAnnotation, KameletCatalog, JSONSchema, isPropertyRequired } from '@app/models/kamelet';
 import { useParams, } from 'react-router';
 import { Catalog } from '@app/contexts/catalog'
 import YAML from 'yaml'
@@ -34,28 +34,21 @@ export const KameletDetailPage: React.FunctionComponent = () => {
         title: "Type"
       },
       {
-        title: "Required"
+        title: "Default"
+      },
+      {
+        title: "Example"
       }
     ]
 
     const rows: IRow[] = []
     if (value.spec.definition.properties) {
-
-      const isRequired = (p: string): boolean => {
-        for (let k in value.spec.definition.required) {
-          if (p == value.spec.definition.required[k]) {
-            return true
-          }
-        }
-        return false
-      }
-
       for (let k in value.spec.definition.properties) {
         const v: JSONSchema = value.spec.definition.properties[k]
         rows.push({
           cells: [
             {
-              title: k,
+              title: k + (isPropertyRequired(value.spec.definition, k) ? "*" : ""),
               
             },
             {
@@ -65,7 +58,10 @@ export const KameletDetailPage: React.FunctionComponent = () => {
               title: v.type || ""
             },
             {
-              title: isRequired(k) + ""
+              title: v.default || ""
+            },
+            {
+              title: v.example || ""
             }
           ]
         })
@@ -76,6 +72,22 @@ export const KameletDetailPage: React.FunctionComponent = () => {
     const content = YAML.stringify(value)
     const file = new Blob([content], {type: "application/x-yaml"})
     const objectURL = URL.createObjectURL(file)
+
+    let endpointURI = "kamelet:" + id
+    let params = 0
+    for (let k in value.spec.definition.properties) {
+      const v: JSONSchema = value.spec.definition.properties[k]
+
+      if (isPropertyRequired(value.spec.definition, k)) {
+        let prefix = "&"
+        if (params == 0) {
+          prefix="?"
+        }
+        params++
+        let example = v.example || "value"
+        endpointURI += prefix + encodeURIComponent(k) + "=" + encodeURIComponent(example)
+      }
+    }
 
     return (
       <>
@@ -108,6 +120,17 @@ export const KameletDetailPage: React.FunctionComponent = () => {
                 </CardHeader>
                 <CardBody>
                   <Button component="a" variant="primary" href={objectURL} download={id + ".kamelet.yaml"}>Download Kamelet</Button>
+                </CardBody>
+                <CardBody>
+                  <Button component="a" variant="secondary" href={"/try/" + id}>Try Online</Button>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <Title headingLevel="h2">Endpoint</Title>
+                </CardHeader>
+                <CardBody>
+                  <ClipboardCopy>{endpointURI}</ClipboardCopy>
                 </CardBody>
               </Card>
             </GridItem>

@@ -14,13 +14,6 @@ const CatalogPage: React.FunctionComponent = () => (
       </Text>
     </PageSection>
     <PageSection>
-      <Link to="/create">
-        <Button icon={<PlusCircleIcon />}>
-          New Kamelet
-        </Button>
-      </Link>
-    </PageSection>
-    <PageSection>
         <Gallery hasGutter>
           <Catalog.Consumer>
             {

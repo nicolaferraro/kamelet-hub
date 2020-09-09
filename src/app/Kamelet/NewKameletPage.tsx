@@ -5,7 +5,7 @@ import { KameletEditor } from '@app/Common/KameletEditor';
 
 
 export const NewKameletPage: React.FunctionComponent = () => {
-  const [value, setValue] = React.useState('from:\n  uri: timer:tick\n  parameters:\n      period: 1000\n  steps:\n      - log: "Hello!"');
+  const [value, setValue] = React.useState('from:\n  uri: timer:tick\n  parameters:\n      period: 1000\n  steps:\n      - set-body:\n          constant: Hello\n      - log: "${body}"\n      - to: "direct:#property:routeId"');
 
   return (
     <>

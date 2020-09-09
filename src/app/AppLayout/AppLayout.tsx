@@ -69,9 +69,10 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({children}) => {
 
   const [catalog, setCatalog] = React.useState<KameletCatalog>({items: []})
   
-  
   React.useEffect(() => {
-    fetch("http://localhost:3000/catalog")
+    fetch("https://api.github.com/repos/nicolaferraro/kamelet-catalog/releases/latest")
+      .then(res => res.json())
+      .then(res => fetch("https://raw.githubusercontent.com/nicolaferraro/kamelet-catalog/" + res["tag_name"] +"/dist/catalog.json"))
       .then(res => res.json())
       .then(setCatalog)
   }, [])

@@ -24,4 +24,15 @@ export interface JSONSchema {
     type?: string
     properties?: Map<string, JSONSchema>
     required?: Array<string>
+    example?: string
+    default?: string
+}
+
+export function isPropertyRequired(schema: JSONSchema, name: string): boolean {
+    for (let k in schema.required) {
+        if (name == schema.required[k]) {
+          return true
+        }
+      }
+      return false
 }
