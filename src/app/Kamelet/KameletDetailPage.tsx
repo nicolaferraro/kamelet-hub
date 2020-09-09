@@ -5,6 +5,7 @@ import { KameletIconAnnotation, KameletCatalog, JSONSchema, isPropertyRequired }
 import { useParams, } from 'react-router';
 import { Catalog } from '@app/contexts/catalog'
 import YAML from 'yaml'
+import { Link } from 'react-router-dom';
 
 export const KameletDetailPage: React.FunctionComponent = () => {
   const params = useParams<{id: string}>()
@@ -122,7 +123,9 @@ export const KameletDetailPage: React.FunctionComponent = () => {
                   <Button component="a" variant="primary" href={objectURL} download={id + ".kamelet.yaml"}>Download Kamelet</Button>
                 </CardBody>
                 <CardBody>
-                  <Button component="a" variant="secondary" href={"/try/" + id}>Try Online</Button>
+                  <Link to={"/try/" + id}>
+                    <Button variant="secondary">Try Online</Button>
+                  </Link>
                 </CardBody>
               </Card>
               <Card>

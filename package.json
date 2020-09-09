@@ -1,15 +1,17 @@
 {
-  "name": "patternfly-seed",
+  "homepage": "https://kamelets.nicolaferraro.me",
+  "name": "kamelet-hub",
   "version": "0.0.1",
-  "description": "An open source build scaffolding utility for web apps.",
+  "description": "The Kamelet Hub.",
   "main": "server.js",
-  "repository": "https://github.com/patternfly/patternfly-react-seed.git",
-  "license": "MIT",
+  "repository": "https://github.com/nicolaferraro/kamelet-hub.git",
+  "license": "Apache 2.0",
   "private": true,
   "scripts": {
     "prebuild": "npm run clean",
     "dr:surge": "node dr-surge.js",
-    "build": "webpack --config webpack.prod.js && npm run dr:surge",
+    "fix:github": "node fix-github.js",
+    "build": "webpack --config webpack.prod.js && npm run dr:surge && npm run fix:github",
     "start": "node server.js",
     "dir:dev": "webpack-dev-server --hot --color --progress --info=true --config webpack.dev.js",
     "start:dev": "npm run dir:dev",
@@ -21,7 +23,9 @@
     "bundle-profile:analyze": "npm run build:bundle-profile && webpack-bundle-analyzer ./stats.json",
     "clean": "rimraf dist",
     "storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook"
+    "build:storybook": "build-storybook",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.3.19",
@@ -45,7 +49,8 @@
     "eslint": "^7.1.0",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
-    "file-loader": "^6.0.0",
+    "file-loader": "^6.1.0",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^4.3.0",
     "imagemin": "^7.0.0",
     "jest": "^26.0.1",
