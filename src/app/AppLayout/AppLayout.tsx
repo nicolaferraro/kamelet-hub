@@ -36,7 +36,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({children}) => {
   };
   const Header = (
     <PageHeader
-      logo="Kamelet Marketplace"
+      logo="Kamelet Hub"
       logoProps={logoProps}
       showNavToggle
       isNavOpen={isNavOpen}

@@ -27,26 +27,26 @@ const routes: IAppRoute[] = [
     exact: true,
     label: 'Catalog',
     path: '/',
-    title: 'Kamelet Marketplace | Dashboard',
+    title: 'Kamelet Hub | Dashboard',
   },
   {
     component: KameletDetailPage,
     exact: false,
     path: '/kamelets/:id',
-    title: 'Kamelet Marketplace | Kamelet',
+    title: 'Kamelet Hub | Kamelet',
   },
   {
     component: KameletTryPage,
     exact: false,
     path: '/try/:id',
-    title: 'Kamelet Marketplace | Try Kamelet',
+    title: 'Kamelet Hub | Try Kamelet',
   },
   {
     component: NewKameletPage,
     exact: true,
     label: 'Designer',
     path: '/create',
-    title: 'Kamelet Marketplace | Create Kamelet',
+    title: 'Kamelet Hub | Create Kamelet',
   }
 ];
 
