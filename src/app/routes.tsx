@@ -7,7 +7,7 @@ import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { KameletDetailPage } from './Kamelet/KameletDetailPage';
 import { NewKameletPage } from './Kamelet/NewKameletPage';
-import { KameletTry, KameletTryPage } from './Kamelet/KameletTryPage';
+import { KameletTryPage } from './Kamelet/KameletTryPage';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
