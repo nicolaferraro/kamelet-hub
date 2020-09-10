@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, CardHeader, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Grid, GridItem, Button, ClipboardCopy, TextInput, CardFooter, Form, ActionGroup } from '@patternfly/react-core';
+import { Card, CardHeader, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Grid, GridItem, Button, ClipboardCopy, TextInput, CardFooter, Form, ActionGroup, TextArea } from '@patternfly/react-core';
 import { Table, TableHeader, TableBody, ICell, IRow } from '@patternfly/react-table';
 import { KameletIconAnnotation, KameletCatalog, JSONSchema } from '@app/models/kamelet';
 import { useParams, } from 'react-router';
@@ -15,6 +15,8 @@ export const KameletTryPage: React.FunctionComponent = () => {
   const catalogContext = React.useContext<KameletCatalog>(Catalog)
   
   const value = catalogContext.items.find(k => k.metadata.name == id)
+
+  const [running, setRunning] = React.useState(false)
 
   if (value) {
 
@@ -71,6 +73,24 @@ export const KameletTryPage: React.FunctionComponent = () => {
       
     }
 
+    let instanceData = <></>
+    if (running) {
+      instanceData = <div style={{backgroundColor: "#000", color: "#fff", fontSize: "14px", height: "400px"}}>
+        routes 16:37:26.953 INFO  [main] AbstractCamelContext - Apache Camel 3.5.0 (camel-k) is starting<br/>
+        routes 16:37:26.955 INFO  [main] AbstractCamelContext - StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html<br/>
+        routes 16:37:26.965 INFO  [main] InternalRouteStartupManager - Route: route1 started and consuming from: timer://tick<br/>
+        routes 16:37:26.976 INFO  [main] AbstractCamelContext - Total 1 routes, of which 1 are started<br/>
+        routes 16:37:26.976 INFO  [main] AbstractCamelContext - Apache Camel 3.4.0 (camel-k) started in 0.023 seconds<br/>
+        routes 16:37:28.087 INFO  [Camel (camel-k) thread #0 - timer://tick] info - Exchange[ExchangePattern: InOnly, BodyType: String, Body: Hello]<br/>
+        routes 16:37:32.977 INFO  [Camel (camel-k) thread #0 - timer://tick] info - Exchange[ExchangePattern: InOnly, BodyType: String, Body: Hello]<br/>
+        routes 16:37:37.978 INFO  [Camel (camel-k) thread #0 - timer://tick] info - Exchange[ExchangePattern: InOnly, BodyType: String, Body: Hello]<br/>
+        <br/>
+        <br/>
+        <b>Hey, this is just a POC. It doesn't run for real!</b>
+      </div>
+    }
+    
+
     return (
       <>
         <PageSection variant={PageSectionVariants.light}>
@@ -96,10 +116,15 @@ export const KameletTryPage: React.FunctionComponent = () => {
                   </CardBody>
                   <CardFooter>
                     <ActionGroup>
-                      <Button variant="primary">Run</Button>
-                      <Link to={"/kamelets/" + id}>
-                        <Button variant="plain">Back</Button>
-                      </Link>
+                      <Button isDisabled={running} variant="primary" onClick={() => setRunning(true)}>Run</Button>
+                      {running ? 
+                        <Button isDisabled={running} variant="plain">Back</Button>
+                        : 
+                        <Link to={"/kamelets/" + id}>
+                          <Button isDisabled={running} variant="plain">Back</Button>
+                        </Link>
+                      }
+                      
                     </ActionGroup>
                   </CardFooter>
                 </Card>
@@ -107,8 +132,17 @@ export const KameletTryPage: React.FunctionComponent = () => {
               <GridItem span={6}>
                 <Card>
                   <CardHeader>
-                    <Title headingLevel="h2">Logs</Title>
+                    <Title headingLevel="h2">Instance</Title>
                   </CardHeader>
+                  <CardBody>
+                    {instanceData}
+                  </CardBody>
+                  <CardFooter>
+                    {running ?
+                      <Button variant="primary" onClick={() => setRunning(false)}>Close</Button>
+                      : ""
+                    }
+                  </CardFooter>
                   
                 </Card>
               
