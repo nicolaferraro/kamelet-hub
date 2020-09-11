@@ -25,7 +25,7 @@ const routes: IAppRoute[] = [
   {
     component: CatalogPage,
     exact: true,
-    label: 'Catalog',
+    label: '1. Catalog',
     path: '/',
     title: 'Kamelet Hub | Dashboard',
   },
@@ -44,7 +44,7 @@ const routes: IAppRoute[] = [
   {
     component: NewKameletPage,
     exact: true,
-    label: 'Designer',
+    label: '2. Designer',
     path: '/create',
     title: 'Kamelet Hub | Create Kamelet',
   }

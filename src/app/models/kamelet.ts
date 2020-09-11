@@ -2,6 +2,7 @@ import { Metadata } from './kubernetes'
 
 export const KameletIconAnnotation = "camel.apache.org/kamelet.icon"
 export const KameletTitleAnnotation = "camel.apache.org/kamelet.title"
+export const KameletTypeLabel = "camel.apache.org/kamelet.type"
 
 export interface KameletCatalog {
     items: Array<Kamelet>
@@ -35,4 +36,8 @@ export function isPropertyRequired(schema: JSONSchema, name: string): boolean {
         }
       }
       return false
+}
+
+export function getKameletType(kamelet: Kamelet): string {
+    return kamelet.metadata.labels[KameletTypeLabel]
 }

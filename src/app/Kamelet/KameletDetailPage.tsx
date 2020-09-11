@@ -101,7 +101,7 @@ export const KameletDetailPage: React.FunctionComponent = () => {
         </PageSection>
         <PageSection>
           <Grid hasGutter>
-            <GridItem span={8}>
+            <GridItem md={12} lg={8}>
               <Card>
                 <CardHeader>
                   <Title headingLevel="h2">Parameters</Title>
@@ -114,18 +114,18 @@ export const KameletDetailPage: React.FunctionComponent = () => {
                 </CardBody>
               </Card>
             </GridItem>
-            <GridItem span={4}>
+            <GridItem md={12} lg={4}>
               <Card>
                 <CardHeader>
                   <Title headingLevel="h2">Actions</Title>
                 </CardHeader>
                 <CardBody>
-                  <Button component="a" variant="primary" href={objectURL} download={id + ".kamelet.yaml"}>Download Kamelet</Button>
+                  <Link to={"/try/" + id}>
+                    <Button variant="primary">Try Online</Button>
+                  </Link>
                 </CardBody>
                 <CardBody>
-                  <Link to={"/try/" + id}>
-                    <Button variant="secondary">Try Online</Button>
-                  </Link>
+                  <Button component="a" variant="secondary" href={objectURL} download={id + ".kamelet.yaml"}>Download Kamelet</Button>
                 </CardBody>
               </Card>
               <Card>

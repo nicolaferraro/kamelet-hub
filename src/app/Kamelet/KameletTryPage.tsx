@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Card, CardHeader, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Grid, GridItem, Button, ClipboardCopy, TextInput, CardFooter, Form, ActionGroup, TextArea } from '@patternfly/react-core';
+import { Card, CardHeader, CardBody, Brand, PageSection, PageSectionVariants, Title, Text, Grid, GridItem, Button, ClipboardCopy, TextInput, CardFooter, Form, ActionGroup, TextArea, Stack, StackItem } from '@patternfly/react-core';
 import { Table, TableHeader, TableBody, ICell, IRow } from '@patternfly/react-table';
-import { KameletIconAnnotation, KameletCatalog, JSONSchema } from '@app/models/kamelet';
+import { KameletIconAnnotation, KameletCatalog, JSONSchema, getKameletType } from '@app/models/kamelet';
 import { useParams, } from 'react-router';
 import { Catalog } from '@app/contexts/catalog'
 import YAML from 'yaml'
 import { InfoIcon, InfoAltIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
+import { fontsize } from '__mocks__/fileMock';
 
 export const KameletTryPage: React.FunctionComponent = () => {
   const params = useParams<{id: string}>()
@@ -17,6 +18,8 @@ export const KameletTryPage: React.FunctionComponent = () => {
   const value = catalogContext.items.find(k => k.metadata.name == id)
 
   const [running, setRunning] = React.useState(false)
+  const [input, setInput] = React.useState("")
+  const [output, setOutput] = React.useState(`{"sample": "data"}`)
 
   if (value) {
 
@@ -65,7 +68,7 @@ export const KameletTryPage: React.FunctionComponent = () => {
               title: <InfoAltIcon title={v.description}></InfoAltIcon>
             },
             {
-            title: <TextInput id={"parameter-" + k} value={v.example || ""}></TextInput>
+            title: <TextInput isDisabled={running} id={"parameter-" + k} value={v.example || ""}></TextInput>
             }
           ]
         })
@@ -103,33 +106,64 @@ export const KameletTryPage: React.FunctionComponent = () => {
         <PageSection>
           <Form>
             <Grid hasGutter>
-              <GridItem span={6}>
-                <Card>
-                  <CardHeader>
-                    <Title headingLevel="h2">Parameters</Title>
-                  </CardHeader>
-                  <CardBody>
-                    <Table aria-label="Parameters" cells={columns} rows={rows}>
-                      <TableHeader />
-                      <TableBody />
-                    </Table>
-                  </CardBody>
-                  <CardFooter>
-                    <ActionGroup>
-                      <Button isDisabled={running} variant="primary" onClick={() => setRunning(true)}>Run</Button>
-                      {running ? 
-                        <Button isDisabled={running} variant="plain">Back</Button>
-                        : 
-                        <Link to={"/kamelets/" + id}>
-                          <Button isDisabled={running} variant="plain">Back</Button>
-                        </Link>
-                      }
-                      
-                    </ActionGroup>
-                  </CardFooter>
-                </Card>
+              <GridItem sm={12} md={12} lg={6}>
+                <Stack hasGutter>
+                  <StackItem>
+                    <Card>
+                      <CardHeader>
+                        <Title headingLevel="h2">Parameters</Title>
+                      </CardHeader>
+                      <CardBody>
+                        <Table aria-label="Parameters" cells={columns} rows={rows}>
+                          <TableHeader />
+                          <TableBody />
+                        </Table>
+                      </CardBody>
+                      <CardFooter>
+                        <ActionGroup>
+                          {running ?
+                            <Button variant="primary" onClick={() => setRunning(false)}>Stop</Button>
+                            :
+                            <Button isDisabled={running} variant="primary" onClick={() => setRunning(true)}>Run</Button>
+                          }
+                          <Link to={"/kamelets/" + id}>
+                            <Button variant="plain">Back</Button>
+                          </Link>
+                        </ActionGroup>
+                      </CardFooter>
+                    </Card>
+                  </StackItem>
+                  <StackItem>
+                    {getKameletType(value) == "sink" ?
+                      <Card>
+                        <CardHeader>
+                          <Title headingLevel="h2">Input</Title>
+                        </CardHeader>
+                        <CardBody>
+                          <TextArea value={input} onChange={(value) => setInput(value)} disabled={!running} style={{height: "100px"}}></TextArea>
+                        </CardBody>
+                        <CardFooter>
+                          <Button isDisabled={!running} variant="primary" onClick={() => setOutput("{\"result\": \"echo " + input + "\"}")}>Send</Button>
+                        </CardFooter>
+                      </Card>
+                      :
+                      ""
+                    }
+                    <Card>
+                      <CardHeader>
+                        <Title headingLevel="h2">Output</Title>
+                      </CardHeader>
+                      <CardBody>
+                        <div style={{height: "100px", backgroundColor: "#EEE", fontSize: "20px", padding: "30px" }}>
+                          {running ? <span>{output}</span> : ""}
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </StackItem>
+                </Stack>
               </GridItem>
-              <GridItem span={6}>
+              
+              <GridItem sm={12} md={12} lg={6}>
                 <Card>
                   <CardHeader>
                     <Title headingLevel="h2">Instance</Title>
@@ -137,16 +171,11 @@ export const KameletTryPage: React.FunctionComponent = () => {
                   <CardBody>
                     {instanceData}
                   </CardBody>
-                  <CardFooter>
-                    {running ?
-                      <Button variant="primary" onClick={() => setRunning(false)}>Close</Button>
-                      : ""
-                    }
-                  </CardFooter>
                   
                 </Card>
               
               </GridItem>
+              
             </Grid>
           </Form>
         </PageSection>
