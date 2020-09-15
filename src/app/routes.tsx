@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler } from '@app/utils/utils';
 import { CatalogPage } from '@app/Catalog/CatalogPage';
+import { RedHatCatalogPage } from '@app/Catalog/RedHatCatalogPage';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
@@ -25,14 +26,27 @@ const routes: IAppRoute[] = [
   {
     component: CatalogPage,
     exact: true,
-    label: '1. Catalog',
+    label: '1. Apache Catalog',
     path: '/',
-    title: 'Kamelet Hub | Dashboard',
+    title: 'Kamelet Hub | Apache Catalog',
+  },
+  {
+    component: RedHatCatalogPage,
+    exact: true,
+    label: '2. Kamelets.io',
+    path: '/hub',
+    title: 'Kamelet Hub | Kamelets.io',
   },
   {
     component: KameletDetailPage,
     exact: false,
     path: '/kamelets/:id',
+    title: 'Kamelet Hub | Kamelet',
+  },
+  {
+    component: KameletDetailPage,
+    exact: false,
+    path: '/:mode/kamelets/:id',
     title: 'Kamelet Hub | Kamelet',
   },
   {
@@ -44,7 +58,7 @@ const routes: IAppRoute[] = [
   {
     component: NewKameletPage,
     exact: true,
-    label: '2. Designer',
+    label: '3. Designer',
     path: '/create',
     title: 'Kamelet Hub | Create Kamelet',
   }

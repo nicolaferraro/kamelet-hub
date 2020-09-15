@@ -26,6 +26,7 @@ const { yaml } = languages || {};
 class KameletEditorProps {
     value?: String
     onChange?: ChangeHandler
+    
 }
 
 export const KameletEditor : FunctionComponent<KameletEditorProps> = (props) => {
@@ -49,11 +50,10 @@ export const KameletEditor : FunctionComponent<KameletEditorProps> = (props) => 
   return (
     <MonacoEditor
       language="yaml"
-      width="900"
-      height="600"
+      height={300}
       value={props.value}
       onChange={props.onChange}
-      options={{minimap: {enabled: false}}}
+      options={{minimap: {enabled: false}, automaticLayout: true}}
     />
   );
 };

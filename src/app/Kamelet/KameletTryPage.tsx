@@ -126,7 +126,7 @@ export const KameletTryPage: React.FunctionComponent = () => {
                             :
                             <Button isDisabled={running} variant="primary" onClick={() => setRunning(true)}>Run</Button>
                           }
-                          <Link to={"/kamelets/" + id}>
+                          <Link to={"/hub/kamelets/" + id}>
                             <Button variant="plain">Back</Button>
                           </Link>
                         </ActionGroup>

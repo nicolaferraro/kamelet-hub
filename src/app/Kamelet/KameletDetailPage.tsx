@@ -7,9 +7,12 @@ import { Catalog } from '@app/contexts/catalog'
 import YAML from 'yaml'
 import { Link } from 'react-router-dom';
 
+
 export const KameletDetailPage: React.FunctionComponent = () => {
-  const params = useParams<{id: string}>()
+  const params = useParams<{id: string, mode?: string}>()
   const id = params.id
+  
+  const mode = params.mode
 
   const catalogContext = React.useContext<KameletCatalog>(Catalog)
   
@@ -119,13 +122,17 @@ export const KameletDetailPage: React.FunctionComponent = () => {
                 <CardHeader>
                   <Title headingLevel="h2">Actions</Title>
                 </CardHeader>
+                {mode=="hub" ? 
+                  <CardBody>
+                    <Link to={"/try/" + id}>
+                      <Button variant="primary">Try Online</Button>
+                    </Link>
+                  </CardBody>
+                  :
+                  ""
+                }
                 <CardBody>
-                  <Link to={"/try/" + id}>
-                    <Button variant="primary">Try Online</Button>
-                  </Link>
-                </CardBody>
-                <CardBody>
-                  <Button component="a" variant="secondary" href={objectURL} download={id + ".kamelet.yaml"}>Download Kamelet</Button>
+                  <Button component="a" variant={mode == "hub" ? "secondary" : "primary"} href={objectURL} download={id + ".kamelet.yaml"}>Download Kamelet</Button>
                 </CardBody>
               </Card>
               <Card>
